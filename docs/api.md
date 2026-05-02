@@ -89,7 +89,7 @@ Returns a full structured map for any URL.
 **Example — curl**
 
 ```bash
-curl -X POST https://api.yourdomain.com/v1/map \
+curl -X POST https://api.getwebspeed.io/v1/map \
   -H "X-Web-Speed-Key: wsp_your_key_here" \
   -H "Content-Type: application/json" \
   -d '{"url": "https://news.ycombinator.com"}'
@@ -101,7 +101,7 @@ curl -X POST https://api.yourdomain.com/v1/map \
 import httpx
 
 client = httpx.Client(
-    base_url="https://api.yourdomain.com",
+    base_url="https://api.getwebspeed.io",
     headers={"X-Web-Speed-Key": "wsp_your_key_here"},
 )
 
@@ -119,7 +119,7 @@ for link in page["content_links"]["items"]:
 **Example — JavaScript**
 
 ```javascript
-const resp = await fetch("https://api.yourdomain.com/v1/map", {
+const resp = await fetch("https://api.getwebspeed.io/v1/map", {
   method: "POST",
   headers: {
     "X-Web-Speed-Key": "wsp_your_key_here",
@@ -288,7 +288,7 @@ No authentication required.
 Forces the next request for this URL to fetch fresh from the web.
 
 ```bash
-curl -X DELETE "https://api.yourdomain.com/v1/registry?url=https://example.com" \
+curl -X DELETE "https://api.getwebspeed.io/v1/registry?url=https://example.com" \
   -H "X-Web-Speed-Key: wsp_your_key_here"
 ```
 

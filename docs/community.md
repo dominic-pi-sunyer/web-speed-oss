@@ -17,8 +17,8 @@ Web Speed is an open-source MCP server that translates any webpage into a clean,
 ## Install
 
 ```bash
-git clone https://github.com/Dominic-Pi-Sunyer/web-speed-oss
-cd web-speed
+git clone https://github.com/Dominic-Pi-Sunyer/web-speed-oss.git
+cd web-speed-oss
 python3 -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
@@ -199,4 +199,4 @@ If `js_required: true` is in the response, the page is a JavaScript shell. Re-ca
 
 ## Source
 
-[github.com/your-username/web-speed](https://github.com/your-username/web-speed) — MIT licensed.
+[github.com/Dominic-Pi-Sunyer/web-speed-oss](https://github.com/Dominic-Pi-Sunyer/web-speed-oss) — MIT licensed.
