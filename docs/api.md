@@ -2,7 +2,7 @@
 
 The Web Speed hosted API gives your agents access to a shared, growing map registry — every URL fetched by any agent anywhere is stored once and served to everyone instantly on the next request. No infrastructure to run, no Playwright to install, no servers to maintain.
 
-**Base URL:** `https://api.yourdomain.com`
+**Base URL:** `https://api.getwebspeed.io`
 
 ---
 

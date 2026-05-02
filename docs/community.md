@@ -17,7 +17,7 @@ Web Speed is an open-source MCP server that translates any webpage into a clean,
 ## Install
 
 ```bash
-git clone https://github.com/your-username/web-speed.git
+git clone https://github.com/Dominic-Pi-Sunyer/web-speed-oss
 cd web-speed
 python3 -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
