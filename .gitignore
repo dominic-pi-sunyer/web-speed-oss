@@ -25,6 +25,7 @@ cache/*.tmp
 .AppleDouble
 .LSOverride
 Thumbs.db
+Cache
 ehthumbs.db
 Desktop.ini
 .vscode/
