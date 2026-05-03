@@ -331,14 +331,6 @@ No AI. No interpretation. The agent is the brain.
 
 ---
 
-## License
-
-MIT. Use it however you want — personally, commercially, in your own products.
-A hosted version with shared cache and usage-based pricing is available
-separately; this repository is, and will always be, free.
-
----
-
 ## Known limitations
 
 - **JS-rendered SPAs**: Pages that load content via JavaScript (React, Vue, Angular) return only the pre-render HTML shell. Password fields, search results, and navigation that are injected by JS will be missing. Use `inspect_element` on what's visible and pair with a browser-automation tool for SPA-heavy targets.
