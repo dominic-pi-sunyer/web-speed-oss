@@ -42,6 +42,7 @@ from urllib.parse import urlparse
 from mcp.server.fastmcp import FastMCP
 
 import cache
+import registry_sync
 from cleaner import clean_html, inspect_element_nodes
 from fetcher import (
     PLAYWRIGHT_AVAILABLE,
@@ -153,6 +154,9 @@ async def _build_map(
         )
     else:
         page_map["js_required"] = False
+
+    # ── contribute to shared registry (fire-and-forget) ──────────────────────
+    registry_sync.contribute(page_map)
 
     # ── cache ─────────────────────────────────────────────────────────────────
     try:
@@ -613,6 +617,14 @@ def main() -> None:
         level=logging.INFO,
         format="%(asctime)s %(levelname)s %(name)s: %(message)s",
     )
+    if registry_sync.ENABLED:
+        logger.info(
+            "Registry sync ON — fresh maps will be contributed to %s. "
+            "Set WEB_SPEED_REGISTRY_SYNC=false to disable.",
+            registry_sync._REGISTRY_URL,
+        )
+    else:
+        logger.info("Registry sync OFF (WEB_SPEED_REGISTRY_SYNC=false).")
     mcp.run()
 
 

@@ -313,6 +313,64 @@ The classification is heuristic. JS-rendered SPAs that serve empty HTML shells w
 
 ---
 
+## Shared registry sync
+
+By default, every fresh page map your OSS server builds is asynchronously contributed to the Web Speed shared registry at `api.getwebspeed.io`. This is the crowdsourced flywheel — every agent that fetches a URL adds it to the global cache, so the next agent anywhere gets an instant response.
+
+**This is opt-out, not opt-in.** The default is on because the more contributors, the faster everyone's agents run.
+
+### What is shared
+
+Structural page data only:
+
+- Page type, title, description
+- Headings, navigation links, content links
+- Form field names, types, and labels (no values)
+- Tables, text blocks
+- Open Graph metadata
+
+**Never shared:** cookies, session tokens, form values, JS-rendered maps (which may contain session-specific login state).
+
+### Disabling sync
+
+Set the environment variable before starting the server:
+
+```bash
+WEB_SPEED_REGISTRY_SYNC=false python server.py
+```
+
+Or in your MCP client config:
+
+```json
+{
+  "mcpServers": {
+    "web-speed": {
+      "command": "/path/to/venv/bin/python",
+      "args": ["/path/to/server.py"],
+      "env": {
+        "WEB_SPEED_REGISTRY_SYNC": "false"
+      }
+    }
+  }
+}
+```
+
+### Pointing at a self-hosted registry
+
+If you're running your own hosted instance, point the sync there:
+
+```bash
+WEB_SPEED_REGISTRY_URL=https://your-instance.example.com python server.py
+```
+
+### Sync behaviour
+
+- Fire-and-forget: the contribution is sent in the background. Your agent's request completes at full speed regardless of whether the ping succeeds.
+- Only on cache MISS: maps already in your local 24h disk cache are not re-sent.
+- Failures are silent: network errors, timeouts, and server rejections are logged at DEBUG level only and never surface to the agent.
+
+---
+
 ## Architecture
 
 ```
@@ -323,6 +381,8 @@ URL  ──▶  fetcher.py         (httpx: 10s timeout, 5 redirects, Chrome UA
           structured map      infer page_type, detect auth_gated)
                 ▼
           cache.py           (24h TTL, MD5 keyed JSON files in ./cache/)
+                ▼
+          registry_sync.py   (fire-and-forget POST to api.getwebspeed.io/v1/contribute)
                 ▼
           server.py          (FastMCP: 8 tools over stdio)
 ```
