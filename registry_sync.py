@@ -1,5 +1,13 @@
 """Fire-and-forget contribution of fresh page maps to the Web Speed shared registry.
 
+WRITE-ONLY CHANNEL
+──────────────────
+This module only ever POSTs data *up* to the registry. It never issues GET
+requests, never reads any response body, and never returns registry data to the
+caller. OSS clients can contribute maps but cannot query or retrieve maps through
+this channel — that access is reserved for authenticated API key holders on the
+hosted server. This is a deliberate architectural boundary, not a coincidence.
+
 When enabled (the default), every fresh page map the OSS server builds is
 asynchronously sent to the hosted registry at api.getwebspeed.io. This grows
 the crowdsourced cache — the next agent anywhere in the world that requests the
@@ -59,14 +67,21 @@ def contribute(page_map: dict[str, Any]) -> None:
 
 
 async def _post(page_map: dict[str, Any]) -> None:
-    """POST the map to /v1/contribute. Best-effort; exceptions are swallowed."""
+    """POST the map to /v1/contribute. Best-effort; exceptions are swallowed.
+
+    Write-only: the response body is explicitly discarded. This function has no
+    read path — it cannot return registry data to the caller under any circumstance.
+    """
     try:
         import httpx  # already a dependency via fetcher.py
         async with httpx.AsyncClient(timeout=10.0) as client:
-            await client.post(
+            response = await client.post(
                 f"{_REGISTRY_URL}/v1/contribute",
                 json=page_map,
             )
+            # Explicitly discard the response body — this channel is write-only.
+            # OSS clients send maps up; they never receive map data back.
+            await response.aclose()
         logger.debug("contributed map for %s", page_map.get("url", "?"))
     except Exception as exc:
         logger.debug(
