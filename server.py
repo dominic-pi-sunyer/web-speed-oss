@@ -291,7 +291,7 @@ async def site_map(
     if not root_url or not isinstance(root_url, str):
         return _error("FETCH_FAILED", "missing or invalid 'root_url'")
     try:
-        max_pages = max(1, int(max_pages))
+        max_pages = max(1, min(int(max_pages), 100))
     except (TypeError, ValueError):
         return _error("FETCH_FAILED", "'max_pages' must be an integer")
 

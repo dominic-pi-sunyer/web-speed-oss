@@ -1,6 +1,6 @@
 """On-disk cache for structured page maps.
 
-Layout: ./cache/<md5(url)>.json
+Layout: ./cache/<sha256(url)[:32]>.json
 Each file: {"url", "cached_at" (ISO timestamp), "map"}.
 Entries older than TTL_SECONDS are stale and treated as misses.
 """
@@ -22,7 +22,7 @@ def _ensure_dir() -> None:
 
 
 def _path_for(url: str) -> Path:
-    digest = hashlib.md5(url.encode("utf-8")).hexdigest()
+    digest = hashlib.sha256(url.encode("utf-8")).hexdigest()[:32]
     return CACHE_DIR / f"{digest}.json"
 
 
