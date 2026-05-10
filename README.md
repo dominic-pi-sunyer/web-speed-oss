@@ -4,6 +4,7 @@ Web Speed solves the **Signal-to-Noise problem** for AI agents. While the modern
 
 **No AI inside.** No `anthropic`, no `openai`, no LLM dependency of any kind. All interpretation lives in the calling agent.
 
+> We also recommend setting up a master instructional file for your LLM of choice (gemini.md, "Instructions for Claude", etc.). A sample doc can be found **[here](docs/instructions.md)**
 ---
 
 ## Why it exists
